@@ -21,7 +21,7 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null }
 }
 
-export async function connectDB() {
+export async function connectDB(): Promise<typeof mongoose> {
   if (cached.conn) {
     return cached.conn
   }
@@ -31,7 +31,9 @@ export async function connectDB() {
       bufferCommands: false,
     }
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts)
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose
+    })
   }
 
   try {

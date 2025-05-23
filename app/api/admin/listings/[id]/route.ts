@@ -12,7 +12,6 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-
     if (!session || session.user.role !== 'admin') {
       return new NextResponse(
         JSON.stringify({ error: 'Unauthorized' }), 
@@ -20,6 +19,7 @@ export async function PATCH(
       );
     }
 
+    await connectDB();
     const { id } = params;
     const body = await request.json();
     const { status } = body;
@@ -38,12 +38,11 @@ export async function PATCH(
       );
     }
 
-    await connectDB();
     const listing = await Listing.findByIdAndUpdate(
       id,
       { status },
       { new: true }
-    ).lean();
+    );
 
     if (!listing) {
       return new NextResponse(
@@ -56,7 +55,7 @@ export async function PATCH(
   } catch (error) {
     console.error('Error updating listing:', error);
     return new NextResponse(
-      JSON.stringify({ error: 'Failed to update listing' }), 
+      JSON.stringify({ error: 'Internal Server Error' }), 
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

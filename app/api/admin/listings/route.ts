@@ -11,7 +11,10 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session || session.user.role !== 'admin') {
-      return new NextResponse('Unauthorized', { status: 401 });
+      return new NextResponse(
+        JSON.stringify({ error: 'Unauthorized' }), 
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     await connectDB();

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import { auth } from '@/auth'
 import SessionProvider from '../components/SessionProvider'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -19,13 +18,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <SessionProvider session={session}>
-          <Navigation />
+          <Navigation session={session} />
           <main className="min-h-screen pt-16">
             {children}
           </main>

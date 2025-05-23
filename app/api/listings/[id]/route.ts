@@ -4,15 +4,9 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import connectDB from '@/lib/mongodb';
 import { Listing } from '@/models/Listing';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
 export async function PATCH(
-  req: NextRequest,
-  props: Props
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -21,8 +15,8 @@ export async function PATCH(
     }
 
     await connectDB();
-    const { id } = props.params;
-    const body = await req.json();
+    const { id } = params;
+    const body = await request.json();
     const { status } = body;
 
     const listing = await Listing.findByIdAndUpdate(

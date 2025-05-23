@@ -6,7 +6,7 @@ import { Listing } from '@/models/Listing';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -15,7 +15,7 @@ export async function PATCH(
     }
 
     await connectDB();
-    const { id } = params;
+    const { id } = context.params;
     const body = await request.json();
     const { status } = body;
 

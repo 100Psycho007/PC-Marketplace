@@ -16,7 +16,7 @@ export async function GET() {
 
     await connectDB();
     const listings = await Listing.find()
-      .populate('user', 'name email')
+      .populate('seller', 'name email')
       .sort({ createdAt: -1 })
       .lean();
 

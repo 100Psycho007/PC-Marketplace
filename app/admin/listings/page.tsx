@@ -11,7 +11,7 @@ interface Listing {
   price: number;
   status: string;
   createdAt: string;
-  user: {
+  seller: {
     name: string;
     email: string;
   };

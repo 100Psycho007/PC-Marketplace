@@ -14,7 +14,10 @@ export async function PATCH(
     const session = await getServerSession(authOptions);
 
     if (!session || session.user.role !== 'admin') {
-      return new NextResponse('Unauthorized', { status: 401 });
+      return new NextResponse(
+        JSON.stringify({ error: 'Unauthorized' }), 
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     const { id } = params;
@@ -22,7 +25,17 @@ export async function PATCH(
     const { status } = body;
 
     if (!status) {
-      return new NextResponse('Status is required', { status: 400 });
+      return new NextResponse(
+        JSON.stringify({ error: 'Status is required' }), 
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!['active', 'pending', 'sold', 'rejected'].includes(status)) {
+      return new NextResponse(
+        JSON.stringify({ error: 'Invalid status value' }), 
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     await connectDB();
@@ -30,15 +43,21 @@ export async function PATCH(
       id,
       { status },
       { new: true }
-    );
+    ).lean();
 
     if (!listing) {
-      return new NextResponse('Listing not found', { status: 404 });
+      return new NextResponse(
+        JSON.stringify({ error: 'Listing not found' }), 
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     return NextResponse.json(listing);
   } catch (error) {
     console.error('Error updating listing:', error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return new NextResponse(
+      JSON.stringify({ error: 'Failed to update listing' }), 
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 } 

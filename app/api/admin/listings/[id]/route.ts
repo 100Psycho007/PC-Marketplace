@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import connectToDatabase from '@/lib/mongodb';
+import connectDB from '@/lib/mongodb';
 import { Listing } from '@/models/Listing';
+
+export const dynamic = 'force-dynamic';
 
 export async function PATCH(
   request: Request,
@@ -23,7 +25,7 @@ export async function PATCH(
       return new NextResponse('Status is required', { status: 400 });
     }
 
-    await connectToDatabase();
+    await connectDB();
     const listing = await Listing.findByIdAndUpdate(
       id,
       { status },

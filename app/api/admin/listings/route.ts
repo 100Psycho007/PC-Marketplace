@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import connectToDatabase from '@/lib/mongodb';
+import connectDB from '@/lib/mongodb';
 import { Listing } from '@/models/Listing';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
@@ -12,7 +14,7 @@ export async function GET() {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    await connectToDatabase();
+    await connectDB();
     const listings = await Listing.find()
       .populate('user', 'name email')
       .sort({ createdAt: -1 });

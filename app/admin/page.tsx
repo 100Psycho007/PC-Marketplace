@@ -9,5 +9,10 @@ export default async function AdminDashboard() {
     redirect('/auth/signin');
   }
 
-  return <AdminDashboardClient />;
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">Welcome, {session.user.name}</h1>
+      <AdminDashboardClient />
+    </div>
+  );
 } 

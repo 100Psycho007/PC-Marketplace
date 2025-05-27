@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import { getUserByEmail } from './lib/data';
 
-export const { auth, signIn, signOut } = NextAuth({
+const handler = NextAuth({
   ...authConfig,
   callbacks: {
     async jwt({ token, user }) {
@@ -21,11 +21,12 @@ export const { auth, signIn, signOut } = NextAuth({
     },
     async signIn({ user, account, profile }) {
       if (!user.email) return false;
-      
       const dbUser = await getUserByEmail(user.email);
       if (!dbUser) return false;
-
       return true;
     },
   },
-}); 
+});
+
+export { handler as authHandler };
+export const { auth, signIn, signOut } = handler; 

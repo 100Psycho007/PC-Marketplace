@@ -1,48 +1,75 @@
 import type { NextAuthConfig } from 'next-auth';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { prisma } from '@/lib/prisma';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
-import { getUserByEmail } from './lib/data';
+
+interface User {
+  id: string;
+  email: string;
+  name: string | null;
+  password: string;
+  role: string;
+}
 
 export const authConfig = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
+      name: 'credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' }
+      },
       async authorize(credentials) {
-        const { email, password } = credentials as {
-          email: string;
-          password: string;
-        };
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-        if (!email || !password) return null;
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email }
+        }) as User | null;
 
-        const user = await getUserByEmail(email);
-        if (!user) return null;
+        if (!user || !user.password) {
+          return null;
+        }
 
-        const passwordsMatch = await bcrypt.compare(password, user.password);
-        if (!passwordsMatch) return null;
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password as string,
+          user.password
+        );
+
+        if (!isPasswordValid) {
+          return null;
+        }
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role,
+          role: user.role
         };
-      },
-    }),
+      }
+    })
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = (user as any).role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+      }
+      return session;
+    }
+  },
   pages: {
     signIn: '/auth/signin',
-  },
-  callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/admin');
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false;
-      } else if (isLoggedIn) {
-        return true;
-      }
-      return true;
-    },
-  },
+    error: '/auth/error'
+  }
 } satisfies NextAuthConfig; 

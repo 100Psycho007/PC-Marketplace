@@ -1,83 +1,65 @@
-# Indian Second-Hand PC Parts Marketplace
+# PC Marketplace
 
-A full-stack web application for buying and selling second-hand PC parts in India, with features like PC building, technician services, and dealer integration.
+A modern marketplace for PC components and services built with Next.js, TypeScript, and Prisma.
 
 ## Features
 
-- User authentication with social login (Google, Facebook)
-- Listings management for PC parts
-- PC Builder tool with compatibility checking
-- Technician portal for PC repair services
-- Dealer integration for bulk purchases
-- Admin dashboard for platform management
-- Payment integration with Stripe/Razorpay
+- User authentication with JWT
+- User roles (admin, user)
+- Product listings
+- Secure password handling
+- Responsive design
 
 ## Tech Stack
 
-- Frontend: Next.js 14, Tailwind CSS
-- Backend: Next.js API Routes
-- Database: MongoDB
-- Authentication: NextAuth.js
-- Payment: Stripe/Razorpay
-- Deployment: Vercel
+- Next.js 14
+- TypeScript
+- Prisma (PostgreSQL)
+- Tailwind CSS
+- JWT Authentication
 
 ## Getting Started
 
-1. Clone the repository
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd pc-marketplace
+```
+
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env.local` file with the following variables:
-   ```
-   # NextAuth.js
-   NEXTAUTH_URL=http://localhost:3000
-   NEXTAUTH_SECRET=your-secret-key
-
-   # Google OAuth
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-   # Facebook OAuth
-   FACEBOOK_CLIENT_ID=your-facebook-client-id
-   FACEBOOK_CLIENT_SECRET=your-facebook-client-secret
-
-   # MongoDB
-   MONGODB_URI=your-mongodb-uri
-
-   # Stripe
-   STRIPE_PUBLIC_KEY=your-stripe-public-key
-   STRIPE_SECRET_KEY=your-stripe-secret-key
-   STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
-   ```
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Project Structure
-
-```
-src/
-├── app/                 # Next.js app directory
-│   ├── admin/          # Admin dashboard
-│   ├── builder/        # PC Builder tool
-│   ├── listings/       # Parts listings
-│   └── technicians/    # Technician portal
-├── components/         # Reusable components
-├── lib/               # Utility functions
-└── types/             # TypeScript types
+```bash
+npm install
 ```
 
-## Contributing
+3. Set up environment variables:
+Create a `.env` file in the root directory with the following variables:
+```env
+DATABASE_URL="your-postgresql-connection-string"
+JWT_SECRET="your-jwt-secret-key"
+```
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+4. Set up the database:
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+5. Run the development server:
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Deployment
+
+This project is configured for deployment on Vercel. Follow these steps to deploy:
+
+1. Push your code to GitHub
+2. Connect your GitHub repository to Vercel
+3. Add your environment variables in the Vercel dashboard
+4. Deploy!
 
 ## License
 
-This project is licensed under the MIT License. 
+MIT 

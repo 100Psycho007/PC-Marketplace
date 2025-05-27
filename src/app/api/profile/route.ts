@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
+import { auth } from '@/auth'
 import connectDB from '@/lib/mongodb'
 import User from '@/models/User'
-import { authOptions } from '../auth/[...nextauth]/route'
+
+export const dynamic = 'force-dynamic'
 
 export async function PUT(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -32,7 +33,7 @@ export async function PUT(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -45,6 +46,32 @@ export async function GET(req: Request) {
     console.error('Error fetching profile:', error)
     return NextResponse.json(
       { error: 'Error fetching profile' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const session = await auth()
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    await connectDB()
+    const data = await request.json()
+
+    const user = await User.findOneAndUpdate(
+      { email: session.user.email },
+      { $set: data },
+      { new: true }
+    )
+
+    return NextResponse.json(user)
+  } catch (error) {
+    console.error('Profile update error:', error)
+    return NextResponse.json(
+      { error: 'Error updating profile' },
       { status: 500 }
     )
   }

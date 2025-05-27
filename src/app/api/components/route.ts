@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
-import { connectDB } from '@/lib/mongodb';
+import { auth } from '@/auth';
+import connectDB from '@/lib/mongodb';
 import { Component } from '@/models/Component';
+
+export const dynamic = 'force-dynamic';
 
 // GET /api/components - Get components with filters
 export async function GET(request: Request) {
   try {
+    const session = await auth();
     await connectDB();
     const { searchParams } = new URL(request.url);
     
@@ -75,7 +77,7 @@ export async function GET(request: Request) {
 // POST /api/components - Create a new component (admin only)
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || session.user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Unauthorized' },

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
-import { connectDB } from '@/lib/mongodb';
+import { auth } from '@/auth';
+import connectDB from '@/lib/mongodb';
 import { Component } from '@/models/Component';
+
+export const dynamic = 'force-dynamic';
 
 // GET /api/components/[id] - Get a specific component
 export async function GET(
@@ -10,6 +11,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await auth();
     await connectDB();
     const component = await Component.findById(params.id);
     
@@ -36,7 +38,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || session.user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -76,7 +78,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || session.user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -99,6 +101,46 @@ export async function DELETE(
     console.error('Error deleting component:', error);
     return NextResponse.json(
       { error: 'Failed to delete component' },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/components/[id] - Update a component (admin only)
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await auth();
+    if (!session || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    await connectDB();
+    const data = await request.json();
+
+    const component = await Component.findByIdAndUpdate(
+      params.id,
+      { $set: data },
+      { new: true, runValidators: true }
+    );
+
+    if (!component) {
+      return NextResponse.json(
+        { error: 'Component not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(component);
+  } catch (error) {
+    console.error('Error updating component:', error);
+    return NextResponse.json(
+      { error: 'Failed to update component' },
       { status: 500 }
     );
   }

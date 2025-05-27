@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../auth/[...nextauth]/route';
-import { connectDB } from '@/lib/mongodb';
+import { auth } from '@/auth';
+import connectDB from '@/lib/mongodb';
+import { Quote } from '@/models/Quote';
 import { PCBuild } from '@/models/PCBuild';
 import { Types } from 'mongoose';
 
@@ -14,13 +14,15 @@ interface Quote {
   createdAt: Date;
 }
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/builds/[id]/quotes - Get quotes for a PC build
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -62,7 +64,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || session.user.role !== 'dealer') {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -110,7 +112,7 @@ export async function PUT(
   { params }: { params: { id: string; quoteId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },

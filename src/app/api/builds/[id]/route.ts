@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
-import { connectDB } from '@/lib/mongodb';
+import { auth } from '@/auth';
+import connectDB from '@/lib/mongodb';
 import { PCBuild } from '@/models/PCBuild';
+
+export const dynamic = 'force-dynamic';
 
 // GET /api/builds/[id] - Get a specific PC build
 export async function GET(
@@ -10,7 +11,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -61,7 +62,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -121,7 +122,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },

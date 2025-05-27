@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
-import { connectDB } from '@/lib/mongodb';
+import { auth } from '@/auth';
+import connectDB from '@/lib/mongodb';
 import { PCBuild } from '@/models/PCBuild';
 import { Component } from '@/models/Component';
+
+export const dynamic = 'force-dynamic';
 
 // GET /api/builds - Get user's builds
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -41,7 +42,7 @@ export async function GET(request: Request) {
 // POST /api/builds - Create a new build
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },

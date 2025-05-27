@@ -4,7 +4,7 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import connectDB from '@/lib/mongodb'
 import User from '@/models/User'
 
-export const authOptions = {
+const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -57,7 +57,6 @@ export const authOptions = {
     signIn: '/auth/signin',
     error: '/auth/error',
   },
-}
+})
 
-const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST } 

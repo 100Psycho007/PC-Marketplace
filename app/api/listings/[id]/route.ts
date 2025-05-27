@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { auth } from '@/auth';
 import connectDB from '@/lib/mongodb';
 import { Listing } from '@/models/Listing';
 
@@ -11,7 +10,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || session.user.role !== 'admin') {
       return new NextResponse(
         JSON.stringify({ error: 'Unauthorized' }), 

@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
-import { connectDB } from '@/lib/mongodb';
+import connectDB from '@/lib/mongodb';
 import { Listing } from '@/models/Listing';
+
+export const dynamic = 'force-dynamic';
 
 // GET /api/listings - Get all listings with filters
 export async function GET(request: Request) {
@@ -61,7 +64,7 @@ export async function GET(request: Request) {
 // POST /api/listings - Create a new listing
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },

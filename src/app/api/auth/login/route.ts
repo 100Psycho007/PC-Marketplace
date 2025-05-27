@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma';
 import { generateToken, setTokenCookie } from '@/lib/jwt';
 import { z } from 'zod';
 
+export const runtime = 'nodejs';
+
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),

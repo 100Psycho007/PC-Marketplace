@@ -40,14 +40,20 @@ export async function POST(req: Request) {
         password: hashedPassword,
         role: 'user',
       },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+      },
     });
 
     // Generate token
     const token = generateToken({
       id: user.id,
-      email: user.email!,
+      email: user.email,
       name: user.name,
-      role: user.role!,
+      role: user.role,
     });
 
     setTokenCookie(token);

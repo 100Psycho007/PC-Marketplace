@@ -32,14 +32,14 @@ export const authConfig = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role;
+      if (user && 'role' in user && typeof user.role === 'string') {
+        token.role = user.role as string;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role;
+        session.user.role = token.role as string | undefined;
       }
       return session;
     },

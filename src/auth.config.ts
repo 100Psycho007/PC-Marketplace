@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import type { NextAuthConfig } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/lib/prisma';
@@ -21,13 +23,15 @@ export const authConfig = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+      async authorize(credentials: Partial<Record<'email' | 'password', unknown>> | undefined) {
+        const email = typeof credentials?.email === 'string' ? credentials.email : undefined;
+        const password = typeof credentials?.password === 'string' ? credentials.password : undefined;
+        if (!email || !password) {
           return null;
         }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
+          where: { email }
         }) as User | null;
 
         if (!user || !user.password) {
@@ -35,7 +39,7 @@ export const authConfig = {
         }
 
         const isPasswordValid = await bcrypt.compare(
-          credentials.password as string,
+          password as string,
           user.password
         );
 

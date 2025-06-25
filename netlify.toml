@@ -1,6 +1,6 @@
 [build]
   command = "npm install --force && npx prisma generate && npm run build"
-  publish = "out"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20.12.2"

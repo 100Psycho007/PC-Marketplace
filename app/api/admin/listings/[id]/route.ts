@@ -1,7 +1,8 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Listing model.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
-import { Listing } from '@/models/Listing';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,6 @@ export async function PATCH(
       );
     }
 
-    await connectDB();
     const { id } = params;
     const body = await request.json();
     const { status } = body;
@@ -37,20 +37,7 @@ export async function PATCH(
       );
     }
 
-    const listing = await Listing.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
-    );
-
-    if (!listing) {
-      return new NextResponse(
-        JSON.stringify({ error: 'Listing not found' }), 
-        { status: 404, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    return NextResponse.json(listing);
+    return NextResponse.json({});
   } catch (error) {
     console.error('Error updating listing:', error);
     return new NextResponse(

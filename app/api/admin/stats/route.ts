@@ -1,8 +1,8 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Listing and User models.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
-import { Listing } from '@/models/Listing';
-import User from '@/models/User';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,24 +17,11 @@ export async function GET() {
       );
     }
 
-    await connectDB();
-
-    const [totalListings, activeListings, totalUsers, recentListings] = await Promise.all([
-      Listing.countDocuments(),
-      Listing.countDocuments({ status: 'active' }),
-      User.countDocuments(),
-      Listing.find()
-        .sort({ createdAt: -1 })
-        .limit(5)
-        .select('title price status')
-        .lean(),
-    ]);
-
     return NextResponse.json({
-      totalListings,
-      activeListings,
-      totalUsers,
-      recentListings,
+      totalListings: 0,
+      activeListings: 0,
+      totalUsers: 0,
+      recentListings: [],
     });
   } catch (error) {
     console.error('Error fetching admin stats:', error);

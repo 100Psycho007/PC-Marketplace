@@ -1,7 +1,8 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Listing model.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
-import { Listing } from '@/models/Listing';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,12 +16,6 @@ export async function GET() {
         { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
-
-    await connectDB();
-    const listings = await Listing.find()
-      .populate('seller', 'name email')
-      .sort({ createdAt: -1 })
-      .lean();
 
     return NextResponse.json(listings);
   } catch (error) {

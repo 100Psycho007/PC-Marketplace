@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import { getUserByEmail } from './lib/data';
@@ -7,8 +8,8 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.role = user.role;
+        token.id = typeof user.id === 'string' ? user.id : '';
+        token.role = typeof user.role === 'string' ? user.role : 'user';
       }
       return token;
     },

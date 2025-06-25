@@ -1,8 +1,8 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted PCBuild and Component models.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
-import { PCBuild } from '@/models/PCBuild';
-import { Component } from '@/models/Component';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,19 +17,11 @@ export async function GET(request: Request) {
       );
     }
 
-    await connectDB();
-    const builds = await PCBuild.find({ user: session.user.id })
-      .populate('components.cpu')
-      .populate('components.motherboard')
-      .populate('components.gpu')
-      .populate('components.ram')
-      .populate('components.storage')
-      .populate('components.psu')
-      .populate('components.case')
-      .populate('components.cooling')
-      .sort({ createdAt: -1 });
-
-    return NextResponse.json(builds);
+    // Implementation of GET method
+    return NextResponse.json(
+      { error: 'Route not implemented' },
+      { status: 501 }
+    );
   } catch (error) {
     console.error('Error fetching builds:', error);
     return NextResponse.json(
@@ -50,28 +42,14 @@ export async function POST(request: Request) {
       );
     }
 
-    await connectDB();
     const data = await request.json();
 
     // Calculate total price
-    const components = await Component.find({
-      _id: { $in: Object.values(data.components).filter(Boolean) }
-    });
-
-    const totalPrice = components.reduce((sum, component) => sum + component.price, 0);
-
-    // Check compatibility
-    const compatibility = await checkCompatibility(components);
-
-    // Create new build
-    const build = await PCBuild.create({
-      ...data,
-      user: session.user.id,
-      totalPrice,
-      compatibility,
-    });
-
-    return NextResponse.json(build, { status: 201 });
+    // Implementation of POST method
+    return NextResponse.json(
+      { error: 'Route not implemented' },
+      { status: 501 }
+    );
   } catch (error) {
     console.error('Error creating build:', error);
     return NextResponse.json(

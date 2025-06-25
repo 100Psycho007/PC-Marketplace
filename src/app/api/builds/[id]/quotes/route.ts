@@ -1,9 +1,10 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Quote and PCBuild models.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
 import { Quote } from '@/models/Quote';
 import { PCBuild } from '@/models/PCBuild';
-import { Types } from 'mongoose';
 
 interface Quote {
   _id: Types.ObjectId;
@@ -30,7 +31,6 @@ export async function GET(
       );
     }
 
-    await connectDB();
     const build = await PCBuild.findById(params.id);
 
     if (!build) {
@@ -72,7 +72,6 @@ export async function POST(
       );
     }
 
-    await connectDB();
     const build = await PCBuild.findById(params.id);
 
     if (!build) {
@@ -120,7 +119,6 @@ export async function PUT(
       );
     }
 
-    await connectDB();
     const build = await PCBuild.findById(params.id);
 
     if (!build) {

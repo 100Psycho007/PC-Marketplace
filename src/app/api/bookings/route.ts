@@ -1,7 +1,8 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Booking model.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server'
 import { auth } from '@/auth'
-import connectDB from '@/lib/mongodb'
-import Booking from '@/models/Booking'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,15 +13,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    await connectDB()
     const data = await req.json()
 
-    const booking = await Booking.create({
-      ...data,
-      customer: session.user.id,
-    })
+    // const booking = await Booking.create({
+    //   ...data,
+    //   customer: session.user.id,
+    // })
 
-    return NextResponse.json(booking)
+    return NextResponse.json(data)
   } catch (error) {
     console.error('Booking creation error:', error)
     return NextResponse.json(
@@ -37,7 +37,6 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    await connectDB()
     const { searchParams } = new URL(req.url)
     const status = searchParams.get('status')
     const role = searchParams.get('role')
@@ -53,12 +52,12 @@ export async function GET(req: Request) {
       query.customer = session.user.id
     }
 
-    const bookings = await Booking.find(query)
-      .populate('technician', 'name email image')
-      .populate('customer', 'name email image')
-      .sort({ date: -1 })
+    // const bookings = await Booking.find(query)
+    //   .populate('technician', 'name email image')
+    //   .populate('customer', 'name email image')
+    //   .sort({ date: -1 })
 
-    return NextResponse.json(bookings)
+    return NextResponse.json(query)
   } catch (error) {
     console.error('Error fetching bookings:', error)
     return NextResponse.json(

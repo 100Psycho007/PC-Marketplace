@@ -1,7 +1,8 @@
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Component model.
+// All mongoose/mongodb code has been removed.
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
-import { Component } from '@/models/Component';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,8 +13,7 @@ export async function GET(
 ) {
   try {
     const session = await auth();
-    await connectDB();
-    const component = await Component.findById(params.id);
+    // const component = await Component.findById(params.id);
     
     if (!component) {
       return NextResponse.json(
@@ -46,14 +46,13 @@ export async function PUT(
       );
     }
 
-    await connectDB();
     const data = await request.json();
 
-    const component = await Component.findByIdAndUpdate(
-      params.id,
-      { $set: data },
-      { new: true, runValidators: true }
-    );
+    // const component = await Component.findByIdAndUpdate(
+    //   params.id,
+    //   { $set: data },
+    //   { new: true, runValidators: true }
+    // );
 
     if (!component) {
       return NextResponse.json(
@@ -86,8 +85,7 @@ export async function DELETE(
       );
     }
 
-    await connectDB();
-    const component = await Component.findByIdAndDelete(params.id);
+    // const component = await Component.findByIdAndDelete(params.id);
 
     if (!component) {
       return NextResponse.json(
@@ -120,14 +118,13 @@ export async function PATCH(
       );
     }
 
-    await connectDB();
     const data = await request.json();
 
-    const component = await Component.findByIdAndUpdate(
-      params.id,
-      { $set: data },
-      { new: true, runValidators: true }
-    );
+    // const component = await Component.findByIdAndUpdate(
+    //   params.id,
+    //   { $set: data },
+    //   { new: true, runValidators: true }
+    // );
 
     if (!component) {
       return NextResponse.json(

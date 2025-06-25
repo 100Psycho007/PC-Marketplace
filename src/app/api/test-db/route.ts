@@ -1,5 +1,6 @@
+// This route is obsolete. All MongoDB/connectDB code has been removed. You can delete this file.
+
 import { NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
 
 export async function GET() {
   try {

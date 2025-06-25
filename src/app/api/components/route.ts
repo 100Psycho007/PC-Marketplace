@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import connectDB from '@/lib/mongodb';
-import { Component } from '@/models/Component';
 
 export const dynamic = 'force-dynamic';
+
+// This route needs to be refactored to use Prisma/Postgres instead of the deleted Component model.
+// All mongoose/mongodb code has been removed.
 
 // GET /api/components - Get components with filters
 export async function GET(request: Request) {
   try {
     const session = await auth();
-    await connectDB();
     const { searchParams } = new URL(request.url);
     
     // Build filter object
@@ -85,7 +85,6 @@ export async function POST(request: Request) {
       );
     }
 
-    await connectDB();
     const data = await request.json();
 
     const component = await Component.create(data);

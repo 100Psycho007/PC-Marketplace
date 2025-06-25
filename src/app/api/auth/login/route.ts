@@ -1,10 +1,10 @@
+export const runtime = 'nodejs';
+
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { generateToken, setTokenCookie } from '@/lib/jwt';
 import { z } from 'zod';
-
-export const runtime = 'nodejs';
 
 const loginSchema = z.object({
   email: z.string().email(),

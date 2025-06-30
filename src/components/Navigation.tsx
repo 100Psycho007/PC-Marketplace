@@ -7,9 +7,11 @@ import { usePathname } from 'next/navigation'
 interface NavigationProps {
   session: {
     user: {
+      id?: string;
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      role?: string;
     };
   } | null;
 }
@@ -49,7 +51,7 @@ export default function Navigation({ session }: NavigationProps) {
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            {session ? (
+            {session && session.user ? (
               <div className="flex items-center space-x-4">
                 <Link
                   href="/profile"
@@ -57,7 +59,7 @@ export default function Navigation({ session }: NavigationProps) {
                 >
                   Profile
                 </Link>
-                {session.user.email === 'admin@example.com' && (
+                {session.user.role === 'admin' && (
                   <Link
                     href="/admin"
                     className="text-gray-500 hover:text-gray-700"

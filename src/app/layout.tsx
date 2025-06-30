@@ -18,7 +18,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
+  let session = null;
+  
+  try {
+    session = await auth();
+  } catch (error) {
+    console.error('Error fetching session:', error);
+    // Continue with null session
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>

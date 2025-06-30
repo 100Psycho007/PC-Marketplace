@@ -3,9 +3,16 @@ import { redirect } from "next/navigation";
 import AdminDashboardClient from "./AdminDashboardClient";
 
 export default async function AdminDashboard() {
-  const session = await auth();
+  let session = null;
+  
+  try {
+    session = await auth();
+  } catch (error) {
+    console.error('Error fetching session:', error);
+    redirect('/auth/signin');
+  }
 
-  if (!session || session.user.role !== 'admin') {
+  if (!session || !session.user || session.user.role !== 'admin') {
     redirect('/auth/signin');
   }
 

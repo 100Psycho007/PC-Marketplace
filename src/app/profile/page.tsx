@@ -3,9 +3,16 @@ import { redirect } from "next/navigation";
 import ProfileClient from "./ProfileClient";
 
 export default async function ProfilePage() {
-  const session = await auth();
+  let session = null;
+  
+  try {
+    session = await auth();
+  } catch (error) {
+    console.error('Error fetching session:', error);
+    redirect('/auth/signin');
+  }
 
-  if (!session) {
+  if (!session || !session.user) {
     redirect('/auth/signin');
   }
 

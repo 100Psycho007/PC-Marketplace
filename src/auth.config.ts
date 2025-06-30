@@ -24,35 +24,40 @@ export const authConfig = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials: Partial<Record<'email' | 'password', unknown>> | undefined) {
-        const email = typeof credentials?.email === 'string' ? credentials.email : undefined;
-        const password = typeof credentials?.password === 'string' ? credentials.password : undefined;
-        if (!email || !password) {
+        try {
+          const email = typeof credentials?.email === 'string' ? credentials.email : undefined;
+          const password = typeof credentials?.password === 'string' ? credentials.password : undefined;
+          if (!email || !password) {
+            return null;
+          }
+
+          const user = await prisma.user.findUnique({
+            where: { email }
+          }) as User | null;
+
+          if (!user || !user.password) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            password as string,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role
+          };
+        } catch (error) {
+          console.error('Authorization error:', error);
           return null;
         }
-
-        const user = await prisma.user.findUnique({
-          where: { email }
-        }) as User | null;
-
-        if (!user || !user.password) {
-          return null;
-        }
-
-        const isPasswordValid = await bcrypt.compare(
-          password as string,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role
-        };
       }
     })
   ],

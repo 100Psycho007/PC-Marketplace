@@ -5,9 +5,9 @@ export async function getUserByEmail(email: string) {
     const { rows } = await sql`
       SELECT * FROM users WHERE email = ${email}
     `;
-    return rows[0];
+    return rows[0] || null;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch user.');
+    return null;
   }
 } 

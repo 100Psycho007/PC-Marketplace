@@ -22,6 +22,7 @@ const mockTechnicians: Technician[] = [
   {
     id: '1',
     name: 'Rajesh Kumar',
+    specialization: 'Hardware',
     location: 'Mumbai',
     rating: 4.8,
     services: ['Hardware Repair', 'Software Installation'],
@@ -29,10 +30,12 @@ const mockTechnicians: Technician[] = [
     image: 'https://placehold.co/600x400/2563eb/ffffff?text=Technician+1',
     hourlyRate: 500,
     availability: 'Mon-Fri, 9AM-6PM',
+    description: 'Experienced hardware technician specializing in PC repairs and upgrades.'
   },
   {
     id: '2',
     name: 'Priya Sharma',
+    specialization: 'Software',
     location: 'Delhi',
     rating: 4.9,
     services: ['Virus Removal', 'Data Recovery'],
@@ -40,6 +43,7 @@ const mockTechnicians: Technician[] = [
     image: 'https://placehold.co/600x400/2563eb/ffffff?text=Technician+2',
     hourlyRate: 450,
     availability: 'Mon-Sat, 10AM-7PM',
+    description: 'Expert in virus removal and data recovery with a strong software background.'
   },
 ];
 

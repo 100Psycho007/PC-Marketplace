@@ -26,10 +26,10 @@ export default function MarketplacePage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    category: searchParams.get('category') || '',
-    minPrice: searchParams.get('minPrice') || '',
-    maxPrice: searchParams.get('maxPrice') || '',
-    city: searchParams.get('city') || '',
+    category: searchParams?.get('category') || '',
+    minPrice: searchParams?.get('minPrice') || '',
+    maxPrice: searchParams?.get('maxPrice') || '',
+    city: searchParams?.get('city') || '',
   });
 
   useEffect(() => {

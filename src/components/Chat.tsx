@@ -75,7 +75,7 @@ export default function Chat({ roomId, user }: ChatProps) {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message…"
         />
-        <button type="submit" className="ml-2 px-4 py-1 bg-blue-500 text-white rounded">
+        <button type="submit" className="ml-2 px-4 py-1 bg-blue-500 text-primary-foreground rounded">
           Send
         </button>
       </form>

@@ -121,12 +121,16 @@ export default function HomeClient() {
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <Button size="lg" className="text-lg px-8 py-6 neon-glow hover:neon-glow bg-primary text-primary-foreground">
-                Start Building
-              </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6 border-border text-foreground">
-                Browse Marketplace
-              </Button>
+              <Link href="/builder">
+                <Button size="lg" className="text-lg px-8 py-6 neon-glow hover:neon-glow bg-primary text-primary-foreground">
+                  Start Building
+                </Button>
+              </Link>
+              <Link href="/marketplace">
+                <Button variant="outline" size="lg" className="text-lg px-8 py-6 border-border text-foreground">
+                  Browse Marketplace
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Stats */}
@@ -194,7 +198,9 @@ export default function HomeClient() {
                   <CardContent>
                     <div className="flex items-center justify-between">
                       <div className="text-2xl font-bold text-gradient">{build.price}</div>
-                      <Button size="sm" className="bg-primary text-primary-foreground">View Details</Button>
+                      <Link href={`/listings/${build.id}`}>
+                        <Button size="sm" className="bg-primary text-primary-foreground">View Details</Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>

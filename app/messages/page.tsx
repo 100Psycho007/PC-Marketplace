@@ -54,16 +54,16 @@ export default function MessagesPage() {
       <h1 className="text-2xl font-bold mb-6">Messages</h1>
       <div className="bg-white rounded-lg shadow p-4">
         {chatRooms.length === 0 ? (
-          <div className="text-gray-500">No conversations yet.</div>
+          <div className="text-muted-foreground">No conversations yet.</div>
         ) : (
           <ul>
             {chatRooms.map((room) => (
               <li key={room.id} className="border-b last:border-b-0 py-3 flex items-center justify-between cursor-pointer hover:bg-gray-50" onClick={() => setSelectedRoom(room)}>
                 <div>
                   <div className="font-semibold">Chat with {room.otherUser.name}</div>
-                  <div className="text-gray-600 text-sm truncate max-w-xs">{room.lastMessage}</div>
+                  <div className="text-muted-foreground text-sm truncate max-w-xs">{room.lastMessage}</div>
                 </div>
-                <div className="text-xs text-gray-400">{room.lastMessageTime ? new Date(room.lastMessageTime.toDate?.() || room.lastMessageTime).toLocaleString() : ""}</div>
+                <div className="text-xs text-muted-foreground">{room.lastMessageTime ? new Date(room.lastMessageTime.toDate?.() || room.lastMessageTime).toLocaleString() : ""}</div>
               </li>
             ))}
           </ul>
@@ -75,7 +75,7 @@ export default function MessagesPage() {
           <div className="w-full max-w-md h-full bg-white shadow-xl p-0 flex flex-col" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between p-4 border-b">
               <h2 className="text-lg font-bold">Chat with {selectedRoom.otherUser.name}</h2>
-              <button onClick={() => setSelectedRoom(null)} className="text-gray-500 hover:text-gray-800">✕</button>
+              <button onClick={() => setSelectedRoom(null)} className="text-muted-foreground hover:text-foreground">✕</button>
             </div>
             <div className="flex-1 overflow-y-auto">
               {/* Reuse Chat component */}

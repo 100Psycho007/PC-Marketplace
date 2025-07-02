@@ -1,41 +1,27 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-import { auth } from '@/auth'
 import SessionProvider from '@/components/SessionProvider'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'PC Marketplace',
-  description: 'Your one-stop destination for PC components and services.',
-}
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  let session = null;
-  
-  try {
-    session = await auth();
-  } catch (error) {
-    console.error('Error fetching session:', error);
-    // Continue with null session
-  }
-
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
-        <SessionProvider session={session}>
-          <Navigation session={session} />
-          <main className="min-h-screen pt-16">
-            {children}
-          </main>
-          <Footer />
+    <html lang="en" className="dark">
+      <body className={`${inter.className} bg-[#0E0E10] text-[#F1F5F9] antialiased`}>
+        <SessionProvider session={null}>
+          <div className="min-h-screen flex flex-col">
+            <Navigation session={null} />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </SessionProvider>
       </body>
     </html>

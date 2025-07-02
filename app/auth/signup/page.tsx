@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function SignUp() {
   const router = useRouter()
@@ -18,6 +19,13 @@ export default function SignUp() {
     const name = formData.get('name') as string
     const email = formData.get('email') as string
     const password = formData.get('password') as string
+    const confirmPassword = formData.get('confirmPassword') as string
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      setLoading(false)
+      return
+    }
 
     try {
       const res = await fetch('/api/auth/register', {
@@ -32,8 +40,7 @@ export default function SignUp() {
         throw new Error(data.error || 'Something went wrong')
       }
 
-      router.push('/')
-      router.refresh()
+      router.push('/auth/signin')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
@@ -42,42 +49,52 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/auth/signin" className="font-medium text-primary-600 hover:text-primary-500">
-              sign in to your account
-            </Link>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-red-400 to-green-400 bg-clip-text text-transparent mb-4 animate-fade-in">
+            Join Us
+          </h1>
+          <p className="text-gray-300">
+            Create your account to get started
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="rounded-md bg-red-50 p-4">
-              <div className="text-sm text-red-700">{error}</div>
-            </div>
-          )}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Name
+
+        {/* Sign Up Form */}
+        <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-300">
+                Full Name
               </label>
               <input
                 id="name"
                 name="name"
                 type="text"
+                autoComplete="name"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Full name"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent backdrop-blur-sm"
+                placeholder="Enter your full name"
               />
             </div>
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-300">
+                Email Address
               </label>
               <input
                 id="email"
@@ -85,12 +102,13 @@ export default function SignUp() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent backdrop-blur-sm"
+                placeholder="Enter your email"
               />
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-300">
                 Password
               </label>
               <input
@@ -99,22 +117,99 @@ export default function SignUp() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent backdrop-blur-sm"
+                placeholder="Create a password"
               />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-300">
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent backdrop-blur-sm"
+                placeholder="Confirm your password"
+              />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                required
+                className="w-4 h-4 text-red-500 bg-white/10 border-white/20 rounded focus:ring-red-500"
+              />
+              <span className="text-sm text-gray-300">
+                I agree to the{' '}
+                <Link href="/terms" className="text-red-400 hover:text-red-300">
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link href="/privacy" className="text-red-400 hover:text-red-300">
+                  Privacy Policy
+                </Link>
+              </span>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-red-500 to-green-500 hover:from-red-600 hover:to-green-600 transform hover:scale-105 transition-all duration-300 shadow-2xl disabled:opacity-50 disabled:transform-none"
+            >
+              {loading ? 'Creating account...' : 'Create Account'}
+            </Button>
+          </form>
+
+          {/* Divider */}
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/20"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-transparent text-gray-400">Or continue with</span>
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+          {/* Social Sign Up */}
+          <div className="space-y-4">
+            <Button
+              variant="outline"
+              className="w-full py-3 border-white/20 text-white hover:bg-white/10 transition-all duration-300"
             >
-              {loading ? 'Creating account...' : 'Create account'}
-            </button>
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Continue with Google
+            </Button>
+
+            <Button
+              variant="outline"
+              className="w-full py-3 border-white/20 text-white hover:bg-white/10 transition-all duration-300"
+            >
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+              Continue with Facebook
+            </Button>
           </div>
-        </form>
+
+          {/* Sign In Link */}
+          <div className="text-center mt-8">
+            <p className="text-gray-300">
+              Already have an account?{' '}
+              <Link href="/auth/signin" className="text-red-400 hover:text-red-300 font-semibold transition-colors">
+                Sign in
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )

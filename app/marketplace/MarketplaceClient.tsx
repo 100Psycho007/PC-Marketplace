@@ -30,7 +30,7 @@ export default function MarketplaceClient() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams ? searchParams : undefined)
         const response = await fetch(`/api/listings?${params}`)
         if (response.ok) {
           const data = await response.json()

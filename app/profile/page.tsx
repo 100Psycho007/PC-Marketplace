@@ -1,9 +1,13 @@
 import { Suspense } from 'react'
 import ProfileClient from './ProfileClient'
+import Link from "next/link";
 
 export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      <div className="mb-4">
+        <Link href="/messages" className="text-blue-600 underline font-semibold">Messages</Link>
+      </div>
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>

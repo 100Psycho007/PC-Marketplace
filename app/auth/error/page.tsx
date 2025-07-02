@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function AuthError() {
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const error = searchParams ? searchParams.get('error') : null
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

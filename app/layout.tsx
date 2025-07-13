@@ -4,6 +4,7 @@ import SessionProvider from '@/components/SessionProvider'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { Inter } from 'next/font/google'
+import { auth } from '@/auth'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,6 +13,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const session = await auth()
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
@@ -21,9 +24,9 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider session={null}>
+          <SessionProvider session={session}>
             <div className="min-h-screen flex flex-col">
-              <Navigation session={null} />
+              <Navigation session={session} />
               <main className="flex-1">
                 {children}
               </main>

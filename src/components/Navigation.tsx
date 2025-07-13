@@ -47,7 +47,7 @@ export default function Navigation({ session }: NavigationProps) {
   ]
 
   if (session?.user?.role === 'admin') {
-    navItems.push({ href: '/admin', label: 'Admin', icon: Shield })
+    navItems.push({ href: '/dashboard', label: 'Admin', icon: Shield })
   }
 
   return (

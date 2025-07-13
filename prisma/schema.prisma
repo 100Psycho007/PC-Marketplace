@@ -18,6 +18,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   listings      Listing[]
+  technician    Technician?
 }
 
 model Account {
@@ -68,4 +69,20 @@ model Listing {
   updatedAt   DateTime @updatedAt
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-} 
+}
+
+model Technician {
+  id             String   @id @default(cuid())
+  name           String
+  specialization String
+  rating         Float
+  experience     String
+  location       String
+  hourlyRate     Float
+  image          String?
+  services       String[]
+  description    String
+  availability   String?
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+}

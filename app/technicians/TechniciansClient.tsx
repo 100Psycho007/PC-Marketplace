@@ -17,41 +17,22 @@ interface Technician {
   availability?: string;
 }
 
-// Mock data for demonstration
-const mockTechnicians: Technician[] = [
-  {
-    id: '1',
-    name: 'Rajesh Kumar',
-    specialization: 'Hardware',
-    location: 'Mumbai',
-    rating: 4.8,
-    services: ['Hardware Repair', 'Software Installation'],
-    experience: '5 years',
-    image: 'https://placehold.co/600x400/2563eb/ffffff?text=Technician+1',
-    hourlyRate: 500,
-    availability: 'Mon-Fri, 9AM-6PM',
-    description: 'Experienced hardware technician specializing in PC repairs and upgrades.'
-  },
-  {
-    id: '2',
-    name: 'Priya Sharma',
-    specialization: 'Software',
-    location: 'Delhi',
-    rating: 4.9,
-    services: ['Virus Removal', 'Data Recovery'],
-    experience: '3 years',
-    image: 'https://placehold.co/600x400/2563eb/ffffff?text=Technician+2',
-    hourlyRate: 450,
-    availability: 'Mon-Sat, 10AM-7PM',
-    description: 'Expert in virus removal and data recovery with a strong software background.'
-  },
-];
-
 export default function TechniciansClient() {
+  const [technicians, setTechnicians] = useState<Technician[]>([]);
   const [selectedService, setSelectedService] = useState<string>('all');
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedTechnician, setSelectedTechnician] = useState<Technician | null>(null);
+
+  useEffect(() => {
+    const fetchTechnicians = async () => {
+      const response = await fetch('/api/technicians');
+      const data = await response.json();
+      setTechnicians(data);
+    };
+
+    fetchTechnicians();
+  }, []);
 
   const services = [
     'all',
@@ -114,7 +95,7 @@ export default function TechniciansClient() {
 
       {/* Technicians List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {mockTechnicians.map((technician) => (
+        {technicians.map((technician) => (
           <div key={technician.id} className="bg-card rounded-lg shadow-md overflow-hidden border border-border">
             <div className="relative h-48">
               <img

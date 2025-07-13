@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
+import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -37,19 +38,7 @@ interface NavigationProps {
 
 export default function Navigation({ session }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [theme, setTheme] = useState<'dark' | 'light'>(
-    typeof window !== 'undefined' && localStorage.getItem('theme') === 'light' ? 'light' : 'dark'
-  )
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }, [theme])
+  const { theme, setTheme } = useTheme()
 
   const navItems = [
     { href: '/marketplace', label: 'Marketplace', icon: Store },

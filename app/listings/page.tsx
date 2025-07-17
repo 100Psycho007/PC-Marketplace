@@ -12,7 +12,7 @@ const mockListings = [
     image: 'https://placehold.co/600x400/2563eb/ffffff?text=RTX+3080',
     condition: 'Like New',
     location: 'Mumbai',
-    createdAt: new Date('2024-03-15'),
+    createdAt: '2024-03-15T12:00:00.000Z',
     isFeatured: true,
   },
   {
@@ -22,10 +22,10 @@ const mockListings = [
     image: 'https://placehold.co/600x400/2563eb/ffffff?text=Ryzen+9+5950X',
     condition: 'Used',
     location: 'Delhi',
-    createdAt: new Date('2024-03-14'),
+    createdAt: '2024-03-14T12:00:00.000Z',
     isFeatured: false,
   },
-  // Add more mock listings as needed
+  // Add more mock listings as needed with hardcoded createdAt and id
 ]
 
 export default function ListingsPage() {

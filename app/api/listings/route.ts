@@ -29,7 +29,7 @@ export async function GET(request: Request) {
           state: 'Maharashtra'
         },
         images: ['/api/placeholder/400/300'],
-        createdAt: new Date().toISOString(),
+        createdAt: '2024-03-15T12:00:00.000Z',
         isFeatured: true,
       },
       {
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
           state: 'Delhi'
         },
         images: ['/api/placeholder/400/300'],
-        createdAt: new Date().toISOString(),
+        createdAt: '2024-03-14T12:00:00.000Z',
         isFeatured: false,
       },
       {
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
           state: 'Karnataka'
         },
         images: ['/api/placeholder/400/300'],
-        createdAt: new Date().toISOString(),
+        createdAt: '2024-03-13T12:00:00.000Z',
         isFeatured: true,
       },
       {
@@ -77,7 +77,7 @@ export async function GET(request: Request) {
           state: 'Tamil Nadu'
         },
         images: ['/api/placeholder/400/300'],
-        createdAt: new Date().toISOString(),
+        createdAt: '2024-03-15T12:00:00.000Z',
         isFeatured: false,
       },
       {
@@ -93,7 +93,7 @@ export async function GET(request: Request) {
           state: 'Telangana'
         },
         images: ['/api/placeholder/400/300'],
-        createdAt: new Date().toISOString(),
+        createdAt: '2024-03-14T12:00:00.000Z',
         isFeatured: true,
       },
       {
@@ -109,7 +109,7 @@ export async function GET(request: Request) {
           state: 'Maharashtra'
         },
         images: ['/api/placeholder/400/300'],
-        createdAt: new Date().toISOString(),
+        createdAt: '2024-03-13T12:00:00.000Z',
         isFeatured: false,
       },
     ];
@@ -164,7 +164,7 @@ export async function POST(request: Request) {
 
     // Mock creation - replace with actual database insert
     const newListing = {
-      _id: Date.now().toString(),
+      _id: '999', // fixed id for mock
       title,
       description,
       price: parseFloat(price),
@@ -173,7 +173,7 @@ export async function POST(request: Request) {
       seller: 'Anonymous',
       location: location || { city: 'Unknown', state: 'Unknown' },
       images: images || [],
-      createdAt: new Date().toISOString(),
+      createdAt: '2024-03-16T12:00:00.000Z', // fixed date for mock
       userId: 'anonymous',
       isFeatured: false,
     };

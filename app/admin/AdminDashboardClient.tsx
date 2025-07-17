@@ -46,7 +46,7 @@ const mockUsers: User[] = [
     email: 'john@example.com',
     role: 'user',
     status: 'active',
-    joinedDate: new Date('2024-01-15'),
+    joinedDate: '2024-01-15T12:00:00.000Z',
   },
   {
     id: '2',
@@ -54,7 +54,7 @@ const mockUsers: User[] = [
     email: 'jane@example.com',
     role: 'technician',
     status: 'active',
-    joinedDate: new Date('2024-02-01'),
+    joinedDate: '2024-02-01T12:00:00.000Z',
   },
 ];
 
@@ -65,7 +65,7 @@ const mockListings: Listing[] = [
     price: 45000,
     seller: 'John Doe',
     status: 'active',
-    createdAt: new Date('2024-03-15'),
+    createdAt: '2024-03-15T12:00:00.000Z',
     isFeatured: true,
   },
   {
@@ -74,7 +74,7 @@ const mockListings: Listing[] = [
     price: 25000,
     seller: 'Jane Smith',
     status: 'pending',
-    createdAt: new Date('2024-03-14'),
+    createdAt: '2024-03-14T12:00:00.000Z',
     isFeatured: false,
   },
 ];
@@ -85,7 +85,7 @@ const mockPayments: Payment[] = [
     amount: 500,
     type: 'Featured Listing',
     status: 'completed',
-    date: new Date('2024-03-15'),
+    date: '2024-03-15T12:00:00.000Z',
     user: 'John Doe',
   },
   {
@@ -93,7 +93,7 @@ const mockPayments: Payment[] = [
     amount: 1000,
     type: 'Technician Subscription',
     status: 'pending',
-    date: new Date('2024-03-14'),
+    date: '2024-03-14T12:00:00.000Z',
     user: 'Jane Smith',
   },
 ];

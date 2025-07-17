@@ -1,8 +1,15 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import ProfileClient from './ProfileClient'
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
+  // TODO: Redirect to /profile after Neon Auth sign-in
+  // For now, always show the profile page
+  // const router = useRouter();
+  // useEffect(() => {
+  //   // If just signed in, redirect to /profile
+  // }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       <div className="mb-4">

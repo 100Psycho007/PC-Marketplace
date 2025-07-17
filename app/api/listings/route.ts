@@ -2,7 +2,6 @@
 // All mongoose/mongodb code has been removed.
 
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -150,15 +149,8 @@ export async function GET(request: Request) {
 // POST /api/listings - Create a new listing
 export async function POST(request: Request) {
   try {
-    const session = await auth();
+    // TODO: Add Neon Auth session check if needed
     
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
     const body = await request.json();
     const { title, description, price, category, condition, location, images } = body;
 
@@ -178,11 +170,11 @@ export async function POST(request: Request) {
       price: parseFloat(price),
       category,
       condition: condition || 'Used',
-      seller: session.user.name || 'Anonymous',
+      seller: 'Anonymous',
       location: location || { city: 'Unknown', state: 'Unknown' },
       images: images || [],
       createdAt: new Date().toISOString(),
-      userId: session.user.id,
+      userId: 'anonymous',
       isFeatured: false,
     };
 

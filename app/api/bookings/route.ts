@@ -2,16 +2,16 @@
 // All mongoose/mongodb code has been removed.
 
 import { NextResponse } from 'next/server'
-import { auth } from '@/auth'
+// TODO: Add Neon Auth session check if needed
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   try {
-    const session = await auth()
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    // const session = await auth()
+    // if (!session) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // }
 
     const data = await req.json()
 
@@ -32,10 +32,10 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const session = await auth()
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    // const session = await auth()
+    // if (!session) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // }
 
     const { searchParams } = new URL(req.url)
     const status = searchParams.get('status')
@@ -47,9 +47,9 @@ export async function GET(req: Request) {
     }
 
     if (role === 'technician') {
-      query.technician = session.user.id
+      // query.technician = session.user.id
     } else {
-      query.customer = session.user.id
+      // query.customer = session.user.id
     }
 
     // const bookings = await Booking.find(query)

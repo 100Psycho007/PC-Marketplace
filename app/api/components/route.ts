@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,4 +17,6 @@ export async function POST(request: Request) {
   // The Component model is no longer available, so we'll leave the code as it is.
   // The code to create a component will be refactored to use Prisma/Postgres.
   return NextResponse.json({ message: 'This route needs to be refactored to use Prisma/Postgres.' });
-} 
+}
+
+// TODO: Add Neon Auth session check if needed 

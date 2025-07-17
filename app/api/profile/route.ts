@@ -2,13 +2,13 @@
 // All mongoose/mongodb code has been removed.
 
 import { NextResponse } from 'next/server'
-import { auth } from '@/auth'
+// TODO: Add Neon Auth session check if needed
 
 export const dynamic = 'force-dynamic'
 
 export async function PUT(req: Request) {
   try {
-    const session = await auth()
+    // const session = await auth()
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -33,7 +33,7 @@ export async function PUT(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const session = await auth()
+    // const session = await auth()
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -52,7 +52,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const session = await auth()
+    // const session = await auth()
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

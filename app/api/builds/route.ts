@@ -2,20 +2,13 @@
 // All mongoose/mongodb code has been removed.
 
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 
 // GET /api/builds - Get user's builds
 export async function GET(request: Request) {
   try {
-    const session = await auth();
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    // TODO: Add Neon Auth session check if needed
 
     // Implementation of GET method
     return NextResponse.json(
@@ -34,13 +27,7 @@ export async function GET(request: Request) {
 // POST /api/builds - Create a new build
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    // TODO: Add Neon Auth session check if needed
 
     const data = await request.json();
 

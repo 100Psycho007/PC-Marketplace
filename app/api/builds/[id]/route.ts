@@ -2,7 +2,6 @@
 // All mongoose/mongodb code has been removed.
 
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,14 +11,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await auth();
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
+    // TODO: Add Neon Auth session check if needed
     // Implementation of GET method
     // ...
   } catch (error) {
@@ -37,14 +29,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await auth();
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
+    // TODO: Add Neon Auth session check if needed
     // Implementation of PUT method
     // ...
   } catch (error) {
@@ -62,14 +47,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await auth();
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
+    // TODO: Add Neon Auth session check if needed
     // Implementation of DELETE method
     // ...
   } catch (error) {

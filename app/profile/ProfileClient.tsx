@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
@@ -13,43 +13,42 @@ interface User {
 }
 
 export default function ProfileClient() {
-  const { data: session, status } = useSession();
+  // TODO: Replace with Neon Auth user/session
+  const user: User = { id: 'mockUser', name: 'Mock User', email: 'mock@example.com' };
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [user, setUser] = useState<User | null>(null);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (status === 'loading') return;
+  // useEffect(() => {
+  //   if (status === 'loading') return;
+  //   if (!session?.user) {
+  //     router.push('/auth/signin');
+  //     return;
+  //   }
+  //   setUser(session.user as User);
+  //   setLoading(false);
+  // }, [session, status, router]);
 
-    if (!session?.user) {
-      router.push('/auth/signin');
-      return;
-    }
+  // if (loading || status === 'loading') {
+  //   return (
+  //     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  //       <div className="backdrop-blur-xl bg-card/80 rounded-3xl p-8 border border-border shadow-2xl animate-pulse">
+  //         <div className="h-32 w-32 bg-muted rounded-full mx-auto mb-6"></div>
+  //         <div className="h-4 bg-muted rounded mb-2"></div>
+  //         <div className="h-4 bg-muted rounded w-3/4"></div>
+  //       </div>
+  //       <div className="lg:col-span-2 backdrop-blur-xl bg-card/80 rounded-3xl p-8 border border-border shadow-2xl animate-pulse">
+  //         <div className="h-4 bg-muted rounded mb-4"></div>
+  //         <div className="h-4 bg-muted rounded mb-2"></div>
+  //         <div className="h-4 bg-muted rounded w-3/4"></div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-    setUser(session.user as User);
-    setLoading(false);
-  }, [session, status, router]);
-
-  if (loading || status === 'loading') {
-    return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="backdrop-blur-xl bg-card/80 rounded-3xl p-8 border border-border shadow-2xl animate-pulse">
-          <div className="h-32 w-32 bg-muted rounded-full mx-auto mb-6"></div>
-          <div className="h-4 bg-muted rounded mb-2"></div>
-          <div className="h-4 bg-muted rounded w-3/4"></div>
-        </div>
-        <div className="lg:col-span-2 backdrop-blur-xl bg-card/80 rounded-3xl p-8 border border-border shadow-2xl animate-pulse">
-          <div className="h-4 bg-muted rounded mb-4"></div>
-          <div className="h-4 bg-muted rounded mb-2"></div>
-          <div className="h-4 bg-muted rounded w-3/4"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
+  // if (!user) {
+  //   return null;
+  // }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

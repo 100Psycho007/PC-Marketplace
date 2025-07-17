@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, orderBy, limit, onSnapshot } from "firebase/firestore";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import Chat from "@/components/Chat";
 
 interface ChatRoom {
@@ -16,11 +16,8 @@ interface ChatRoom {
 }
 
 export default function MessagesPage() {
-  const { data: session } = useSession();
-  const user = {
-    id: session?.user?.id || "mockUser",
-    name: session?.user?.name || "Mock User"
-  };
+  // TODO: Replace with Neon Auth user/session
+  const user = { id: "mockUser", name: "Mock User" };
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<ChatRoom | null>(null);
 

@@ -174,10 +174,10 @@ export default function Navigation({ session }: NavigationProps) {
             ) : (
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" asChild>
-                  <Link href="/auth/signin">Sign In</Link>
+                  <Link href="/handler/sign-in">Sign In</Link>
                 </Button>
                 <Button asChild>
-                  <Link href="/auth/signup">Sign Up</Link>
+                  <Link href="/handler/sign-up">Sign Up</Link>
                 </Button>
               </div>
             )}

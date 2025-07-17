@@ -1,4 +1,6 @@
 import './globals.css'
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackServerApp } from "../stack";
 import SessionProvider from '@/components/SessionProvider'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -13,7 +15,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-[#0E0E10] text-[#F1F5F9] antialiased`}>
+      <body className={`${inter.className} bg-[#0E0E10] text-[#F1F5F9] antialiased`}><StackProvider app={stackServerApp}><StackTheme>
         <SessionProvider session={null}>
           <div className="min-h-screen flex flex-col">
             <Navigation session={null} />
@@ -23,7 +25,7 @@ export default async function RootLayout({
             <Footer />
           </div>
         </SessionProvider>
-      </body>
+      </StackTheme></StackProvider></body>
     </html>
   )
 } 

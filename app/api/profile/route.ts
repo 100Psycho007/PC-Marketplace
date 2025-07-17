@@ -8,19 +8,7 @@ export const dynamic = 'force-dynamic'
 
 export async function PUT(req: Request) {
   try {
-    // const session = await auth()
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const data = await req.json()
-
-    // const user = await User.findOneAndUpdate(
-    //   { email: session.user.email },
-    //   { $set: data },
-    //   { new: true }
-    // )
-
     return NextResponse.json(data)
   } catch (error) {
     console.error('Profile update error:', error)
@@ -33,14 +21,8 @@ export async function PUT(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    // const session = await auth()
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    // const user = await User.findOne({ email: session.user.email })
-
-    return NextResponse.json(session)
+    // TODO: Add Neon Auth session check if needed
+    return NextResponse.json({ message: 'Profile endpoint' })
   } catch (error) {
     console.error('Error fetching profile:', error)
     return NextResponse.json(
@@ -52,19 +34,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    // const session = await auth()
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const data = await request.json()
-
-    // const user = await User.findOneAndUpdate(
-    //   { email: session.user.email },
-    //   { $set: data },
-    //   { new: true }
-    // )
-
     return NextResponse.json(data)
   } catch (error) {
     console.error('Profile update error:', error)

@@ -35,7 +35,7 @@ export default function TechniciansPage() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-300">Service Type</label>
-              <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent backdrop-blur-sm">
+              <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent backdrop-blur-sm [&>option]:bg-slate-800 [&>option]:text-white [&>option]:py-2">
                 <option value="">All Services</option>
                 <option value="building">PC Building</option>
                 <option value="repair">Repair</option>
@@ -53,7 +53,7 @@ export default function TechniciansPage() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-300">Rating</label>
-              <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent backdrop-blur-sm">
+              <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent backdrop-blur-sm [&>option]:bg-slate-800 [&>option]:text-white [&>option]:py-2">
                 <option value="">Any Rating</option>
                 <option value="4+">4+ Stars</option>
                 <option value="4.5+">4.5+ Stars</option>
@@ -70,7 +70,8 @@ export default function TechniciansPage() {
               <div key={i} className="backdrop-blur-xl bg-white/10 rounded-3xl p-6 border border-white/20 shadow-2xl animate-pulse">
                 <div className="h-48 bg-white/10 rounded-2xl mb-4"></div>
                 <div className="h-4 bg-white/10 rounded mb-2"></div>
-                <div className="h-4 bg-white/10 rounded w-3/4"></div>
+                <div className="h-4 bg-white/10 rounded w-3/4 mb-4"></div>
+                <div className="h-8 bg-white/10 rounded"></div>
               </div>
             ))}
           </div>
@@ -109,4 +110,4 @@ export default function TechniciansPage() {
       </div>
     </div>
   )
-} 
+}

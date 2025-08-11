@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -161,7 +163,7 @@ export default function Navigation({ session }: NavigationProps) {
             ) : (
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" asChild>
-                  <Link href="/handler/sign-in">Sign In</Link>
+                  <Link href="/auth/signin">Sign In</Link>
                 </Button>
                 <Button asChild>
                   <Link href="/handler/sign-up">Sign Up</Link>
